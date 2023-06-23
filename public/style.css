@@ -68,6 +68,15 @@ input::placeholder {
     color: hsl(0, 1%, 44%)
   }
 
+  .red-placeholder::placeholder{
+    color: hsl(0, 100%, 67%);
+  }
+
+  .day-highlight, .month-highlight, .year-highlight {
+    color: hsl(0, 100%, 67%);
+  }
+  
+
   hr{
     width: 71%;
     border-style: solid none none none;
