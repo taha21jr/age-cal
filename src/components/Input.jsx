@@ -26,6 +26,7 @@ const Input = (props) => {
         style={style}
         onClick={onClick}
       />
+
       <input
         placeholder="MM"
         className={submit && "red-placeholder"}
@@ -34,6 +35,7 @@ const Input = (props) => {
         style={style}
         onClick={onClick}
       />
+
       <input
         placeholder="YYYY"
         className={submit && "red-placeholder"}

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
+// import moment from "moment";
 import Input from "./Input";
+import Valid from "./Valid";
 
 let ageYears = null,
   ageMonths = null,
@@ -14,12 +16,28 @@ const Form = () => {
   const [dash, setDash] = useState(false);
 
   const handleSubmit = (event) => {
-    console.log("day" + day, months, year);
+    console.log("day " + day, months, year);
+    const currentYear = new Date().getFullYear();
+    const checkMonth = 12;
 
     event.preventDefault();
+
     if (day === "" || months === "" || year === "") {
+      console.log("hello");
       setIsSubmitted(true);
-    } else {
+    } else if (year > currentYear || months > checkMonth || day >= 32) {
+      console.log("day:", day, typeof day);
+      console.log("year:", year, typeof year);
+      console.log("currentYear:", currentYear, typeof currentYear);
+      console.log("months:", months, typeof months);
+      console.log("checkMonth:", checkMonth, typeof checkMonth);
+      console.log("hello greatee>>>");
+      setIsSubmitted(true);
+    } else if (
+      year < currentYear ||
+      (year === currentYear && months <= checkMonth && day <= 31)
+    ) {
+      console.log("hello =====");
       setIsSubmitted(false);
       let currentDate = new Date();
       let birthDate = new Date(year, months - 1, day);
@@ -33,12 +51,6 @@ const Form = () => {
       ageYears = Math.floor(days / 365);
       ageMonths = Math.floor((days % 365) / 30.44);
       ageDays = Math.floor((days % 365) % 30.44);
-
-      console.log("if", ageDays);
-      if (ageDays === "") {
-        console.log("hell0");
-      }
-
       setDash(true);
     }
   };
@@ -62,6 +74,7 @@ const Form = () => {
   const handleClick = () => {
     console.log(dash);
     setDash(false);
+    setIsSubmitted(false);
   };
 
   return (
@@ -89,6 +102,7 @@ const Form = () => {
               : "hsl(259, 100%, 65%)",
           }}
         />
+        {isSubmitted ? <Valid /> : null}
 
         <hr />
         <button className="btn" type="submit" onClick={handleSubmit}>
