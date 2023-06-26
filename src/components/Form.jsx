@@ -14,31 +14,36 @@ const Form = () => {
   const [finalState, setFinalState] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [dash, setDash] = useState(false);
+  const [validYear, setValidYear] = useState(false);
+  const [validMonth, setValidMonth] = useState(false);
+  const [validDay, setValidDay] = useState(false);
+  const [fields, setFields] = useState(false);
+  const [allFields, setAllFields] = useState(false);
 
   const handleSubmit = (event) => {
-    console.log("day " + day, months, year);
     const currentYear = new Date().getFullYear();
     const checkMonth = 12;
 
     event.preventDefault();
 
     if (day === "" || months === "" || year === "") {
-      console.log("hello");
       setIsSubmitted(true);
+    } else if (day >= 32 && months > checkMonth && year > currentYear) {
+      setFields(true);
+    } else if (day >= 32) {
+      setValidDay(true);
+      setAllFields(true);
+    } else if (months > checkMonth) {
+      setValidMonth(true);
+      setAllFields(true);
+    } else if (year > currentYear) {
+      setValidYear(true);
+      setAllFields(true);
     } else if (year > currentYear || months > checkMonth || day >= 32) {
-      console.log("day:", day, typeof day);
-      console.log("year:", year, typeof year);
-      console.log("currentYear:", currentYear, typeof currentYear);
-      console.log("months:", months, typeof months);
-      console.log("checkMonth:", checkMonth, typeof checkMonth);
-      console.log("hello greatee>>>");
       setIsSubmitted(true);
-    } else if (
-      year < currentYear ||
-      (year === currentYear && months <= checkMonth && day <= 31)
-    ) {
-      console.log("hello =====");
+    } else if (year <= currentYear && months <= checkMonth && day <= 31) {
       setIsSubmitted(false);
+
       let currentDate = new Date();
       let birthDate = new Date(year, months - 1, day);
       let ageInMilliseconds = currentDate - birthDate;
@@ -70,20 +75,59 @@ const Form = () => {
     }
   }, [dash]);
 
-  console.log("dasjh========", dash);
   const handleClick = () => {
-    console.log(dash);
     setDash(false);
     setIsSubmitted(false);
+    setFields(false);
+    setValidDay(false);
+    setValidMonth(false);
+    setValidYear(false);
+    setAllFields(false);
   };
 
   return (
     <form className="form" autoComplete="off">
       <div className="container">
         <div className="para-div">
-          <p className={isSubmitted ? "day-highlight" : ""}>DAY</p>
-          <p className={isSubmitted ? "month-highlight" : "month"}>MONTH</p>
-          <p className={isSubmitted ? "year-highlight" : ""}>YEAR</p>
+          <p
+            className={
+              isSubmitted
+                ? "day-highlight"
+                : fields
+                ? "day-highlight"
+                : allFields
+                ? "day-highlight"
+                : ""
+            }
+          >
+            DAY
+          </p>
+          <p
+            className={
+              isSubmitted
+                ? "month-highlight"
+                : fields
+                ? "month-highlight"
+                : allFields
+                ? "month-highlight"
+                : "month"
+            }
+          >
+            MONTH
+          </p>
+          <p
+            className={
+              isSubmitted
+                ? "year-highlight"
+                : fields
+                ? "year-highlight"
+                : allFields
+                ? "year-highlight"
+                : ""
+            }
+          >
+            YEAR
+          </p>
         </div>
 
         <Input
@@ -99,10 +143,38 @@ const Form = () => {
           style={{
             borderColor: isSubmitted
               ? "hsl(0, 100%, 67%)"
+              : fields
+              ? "hsl(0, 100%, 67%)"
+              : allFields
+              ? "hsl(0, 100%, 67%)"
               : "hsl(259, 100%, 65%)",
           }}
         />
-        {isSubmitted ? <Valid /> : null}
+        {isSubmitted ? (
+          <Valid
+            fields={fields}
+            submit={isSubmitted}
+            vDay={validDay}
+            vMonth={validMonth}
+            vYear={validYear}
+          />
+        ) : fields ? (
+          <Valid
+            fields={fields}
+            submit={isSubmitted}
+            vDay={validDay}
+            vMonth={validMonth}
+            vYear={validYear}
+          />
+        ) : allFields ? (
+          <Valid
+            fields={fields}
+            submit={isSubmitted}
+            vDay={validDay}
+            vMonth={validMonth}
+            vYear={validYear}
+          />
+        ) : null}
 
         <hr />
         <button className="btn" type="submit" onClick={handleSubmit}>

@@ -142,5 +142,11 @@ span{
     color: hsl(0, 100%, 67%);
 }
     
+.monthSpan{
+    margin-left: 148px;
+}
+.yearSpan{
+    margin-left: 297px;
+}
 /* font-family: 'Poppins', sans-serif;
  */
