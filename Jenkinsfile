@@ -7,7 +7,12 @@ pipeline {
                     git clone https://github.com/Tahahusnain/age-cal.git
                     cd age-cal
                     dir
-                    deploywebsite.bat
+                    if exist deploywebsite.bat (
+                        deploywebsite.bat
+                    ) else (
+                        echo deploywebsite.bat not found
+                        exit 1
+                    )
                 '''
             }
         }
