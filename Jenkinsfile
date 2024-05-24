@@ -5,7 +5,8 @@ pipeline {
             steps {
                 bat '''
                     git clone https://github.com/Tahahusnain/age-cal.git
-                    
+                    dir
+                    deploywebsite.bat
                 '''
             }
         }
